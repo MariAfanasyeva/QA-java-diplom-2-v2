@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: UpdateUserDataTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 21.761 s <<< FAILURE! - in UpdateUserDataTest
+checkChangeUnAuthorizedUserName(UpdateUserDataTest)  Time elapsed: 2.434 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <200>.
+
+	at UpdateUserDataTest.checkChangeUnAuthorizedUserName(UpdateUserDataTest.java:97)
+
+checkChangeUnAuthorizedUserEmail(UpdateUserDataTest)  Time elapsed: 2.438 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <200>.
+
+	at UpdateUserDataTest.checkChangeUnAuthorizedUserEmail(UpdateUserDataTest.java:69)
+
+checkChangeUnAuthorizedUserPassword(UpdateUserDataTest)  Time elapsed: 2.566 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <200>.
+
+	at UpdateUserDataTest.checkChangeUnAuthorizedUserPassword(UpdateUserDataTest.java:83)
+
