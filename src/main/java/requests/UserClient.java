@@ -1,6 +1,6 @@
 package requests;
-
 import deserializator.user.UserResponse;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import serialization.User;
 import specs.RequestSpec;
@@ -8,54 +8,57 @@ import urls.Endpoints;
 
 //все запросы для работы с апи юзера
 public class UserClient extends RequestSpec {
-    private Endpoints endpoints = new Endpoints();
+    private final Endpoints endpoints = new Endpoints();
     private String token;
     private String accessToken;
 
-    //создаем юзера и возвращаем ответ от сервера
+    @Step("Создаем юзера и возвращаем ответ от сервера")
     public Response createUser(User user) throws InterruptedException {
-    return baseSpec()
-            .baseUri(endpoints.baseUri)
-            .body(user)
-            .when()
-            .post(endpoints.registerUri);
-   }
+        return baseSpec()
+                .baseUri(endpoints.baseUri)
+                .body(user)
+                .when()
+                .post(endpoints.registerUri);
+    }
 
-   //авторизуемся за юзера и возвращаем ответ от сервера
-   public Response loginUser(User user) throws InterruptedException {
+    @Step("Авторизуемся за юзера и возвращаем ответ от сервера")
+    public Response loginUser(User user) throws InterruptedException {
         return baseSpec()
                 .baseUri(endpoints.baseUri)
                 .body(user)
                 .when()
                 .post(endpoints.loginUri);
-   }
-   //установка токена от Response
+    }
+
+    @Step("Установка токена от Response")
     public void setToken(Response response) {
         String tmpToken = response.then().extract().path("accessToken");
         this.accessToken = tmpToken.replace("Bearer ", "");
     }
 
-    //установка токена из десериализации
-    public void setAccessToken(UserResponse userResponse) {
-        this.accessToken = userResponse.getAccessToken().replace("Bearer ", "");
-    }
-
+    @Step("Получение токена")
     public String getAccessToken() {
         return accessToken;
     }
 
-    //удаление юзера
+    @Step("Установка токена из десериализации")
+    public void setAccessToken(UserResponse userResponse) {
+        this.accessToken = userResponse.getAccessToken().replace("Bearer ", "");
+    }
+
+    @Step("Удаление юзера")
     public void deleteUser(String token) throws InterruptedException {
-        if (token != null){
+        if (token != null) {
             baseSpec()
                     .auth().oauth2(token)
                     .baseUri(endpoints.baseUri)
                     .delete(endpoints.authUser).then().assertThat().statusCode(202);
         }
     }
-    //проверка данных юзера
+
+    @Step("Проверка данных юзера")
     public UserResponse checkUserCreds(User user) throws InterruptedException {
-       return baseSpec()
+        return baseSpec()
                 .baseUri(endpoints.baseUri)
                 .body(user)
                 .when()
@@ -63,7 +66,7 @@ public class UserClient extends RequestSpec {
                 .as(UserResponse.class);
     }
 
-    //изменение данных юзера
+    @Step("Изменение данных юзера")
     public Response changeUserData(User user, String token) throws InterruptedException {
         return baseSpec()
                 .auth().oauth2(token)

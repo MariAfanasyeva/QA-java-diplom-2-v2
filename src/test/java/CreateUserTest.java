@@ -8,53 +8,52 @@ import org.junit.Test;
 import requests.UserClient;
 import serialization.User;
 import tools.UserDataGenerator;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class CreateUserTest {
-    private UserDataGenerator uGen = new UserDataGenerator();
-    private User user = new User(uGen.genEmail(), uGen.genPassword(), uGen.genName());
-    private UserClient userClient = new UserClient();
+    private final UserDataGenerator uGen = new UserDataGenerator();
+    private final User user = new User(uGen.genEmail(), uGen.genPassword(), uGen.genName());
+    private final UserClient userClient = new UserClient();
 
 
     @Test
     @DisplayName("Создание пользователя")
     @Description("Проверяем код ответа и поле success")
-     public void checkStatusCodeCreatingUser () throws InterruptedException {
-         Response response = userClient.createUser(user);
-         userClient.setToken(response);
-         response.then().assertThat().statusCode(200).and().body("success", equalTo(true));
-     }
+    public void checkStatusCodeCreatingUser() throws InterruptedException {
+        Response response = userClient.createUser(user);
+        userClient.setToken(response);
+        response.then().assertThat().statusCode(200).and().body("success", equalTo(true));
+    }
 
-     @Test
-     @DisplayName("Создание пользователя")
-     @Description("Проверяем поле email")
-     public void checkUserEmail () throws InterruptedException {
-         UserResponse userResponse = userClient.checkUserCreds(user);
-         userClient.setAccessToken(userResponse);
-         Assert.assertEquals(user.getEmail(), userResponse.getUser().getEmail());
-     }
+    @Test
+    @DisplayName("Создание пользователя")
+    @Description("Проверяем поле email")
+    public void checkUserEmail() throws InterruptedException {
+        UserResponse userResponse = userClient.checkUserCreds(user);
+        userClient.setAccessToken(userResponse);
+        Assert.assertEquals(user.getEmail(), userResponse.getUser().getEmail());
+    }
 
-     @Test
-     @DisplayName("Создание пользователя")
-     @Description("Проверяем поле name")
-     public void checkUserName () throws InterruptedException {
-         UserResponse userResponse = userClient.checkUserCreds(user);
-         userClient.setAccessToken(userResponse);
-         Assert.assertEquals(user.getName(), userResponse.getUser().getName());
-     }
+    @Test
+    @DisplayName("Создание пользователя")
+    @Description("Проверяем поле name")
+    public void checkUserName() throws InterruptedException {
+        UserResponse userResponse = userClient.checkUserCreds(user);
+        userClient.setAccessToken(userResponse);
+        Assert.assertEquals(user.getName(), userResponse.getUser().getName());
+    }
 
-     //уникальность = email
-     @Test
-     @DisplayName("Создание ранее уже созданного пользователя")
-     @Description("Проверяем, что повторное создание не произошло, вернулось корректное сообщение об ошибке и код ответа")
-     public void createDouplicateUserReturnForbidden () throws InterruptedException {
-         Response response = userClient.createUser(user);
-         userClient.setToken(response);
-         User douplicateUser = new User(user.getEmail(), uGen.genPassword(), uGen.genName());
-         Response response1 = userClient.createUser(douplicateUser);
-         response1.then().assertThat().statusCode(403).and().body("message", equalTo("User already exists"));
-     }
+    //уникальность = email
+    @Test
+    @DisplayName("Создание ранее уже созданного пользователя")
+    @Description("Проверяем, что повторное создание не произошло, вернулось корректное сообщение об ошибке и код ответа")
+    public void createDouplicateUserReturnForbidden() throws InterruptedException {
+        Response response = userClient.createUser(user);
+        userClient.setToken(response);
+        User douplicateUser = new User(user.getEmail(), uGen.genPassword(), uGen.genName());
+        Response response1 = userClient.createUser(douplicateUser);
+        response1.then().assertThat().statusCode(403).and().body("message", equalTo("User already exists"));
+    }
 
     @Test
     @DisplayName("Создание пользователя без обязательного поля email")
@@ -83,10 +82,10 @@ public class CreateUserTest {
         response.then().assertThat().statusCode(403).and().body("message", equalTo("Email, password and name are required fields"));
     }
 
-     //удаляем юзера после тестирования
-     @After
+    //удаляем юзера после тестирования
+    @After
     public void clearUserData() throws InterruptedException {
         userClient.deleteUser(userClient.getAccessToken());
-     }
+    }
 
 }

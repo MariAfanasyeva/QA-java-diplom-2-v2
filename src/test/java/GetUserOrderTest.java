@@ -17,19 +17,20 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 
 public class GetUserOrderTest {
-    private UserDataGenerator uGen = new UserDataGenerator();
-    private User user = new User(uGen.genEmail(), uGen.genPassword(), uGen.genName());
-    private UserClient userClient = new UserClient();
-    private UserOrders userOrders= new UserOrders();
-    private List<String> ingridientsForTest = new ArrayList<>();
-    private OrderClient orderClient = new OrderClient();
+    private final UserDataGenerator uGen = new UserDataGenerator();
+    private final User user = new User(uGen.genEmail(), uGen.genPassword(), uGen.genName());
+    private final UserClient userClient = new UserClient();
+    private final UserOrders userOrders = new UserOrders();
+    private final List<String> ingridientsForTest = new ArrayList<>();
+    private final OrderClient orderClient = new OrderClient();
 
     @Before
-    public void ingridientList (){
+    public void ingridientList() {
         ingridientsForTest.add("61c0c5a71d1f82001bdaaa6c");
         ingridientsForTest.add("61c0c5a71d1f82001bdaaa71");
         ingridientsForTest.add("61c0c5a71d1f82001bdaaa72");
     }
+
     @Test
     @DisplayName("Получение заказов авторизованного пользователя")
     @Description("Проверяем, что возвращается список заказов с id, код ответа 200")
@@ -42,7 +43,7 @@ public class GetUserOrderTest {
         UserOrders response = orderClient.getOrdersOfUser(userClient.getAccessToken());//получить заказ
         int statusCode = orderClient.getUserOrder(userClient.getAccessToken()).statusCode();
         Assert.assertTrue(statusCode == 200
-        && orderClient.checkUserOrdersIds(response) > 0);
+                && orderClient.checkUserOrdersIds(response) > 0);
     }
 
     @Test

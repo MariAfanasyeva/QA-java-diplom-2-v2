@@ -1,5 +1,4 @@
 package deserializator.order.get;
-
 import java.util.List;
 
 public class Orders {

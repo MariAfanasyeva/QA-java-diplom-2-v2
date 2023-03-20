@@ -7,13 +7,12 @@ import org.junit.Test;
 import requests.UserClient;
 import serialization.User;
 import tools.UserDataGenerator;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class UpdateUserDataTest {
-    private UserDataGenerator uGen = new UserDataGenerator();
-    private User user = new User(uGen.genEmail(), uGen.genPassword(), uGen.genName());
-    private UserClient userClient = new UserClient();
+    private final UserDataGenerator uGen = new UserDataGenerator();
+    private final User user = new User(uGen.genEmail(), uGen.genPassword(), uGen.genName());
+    private final UserClient userClient = new UserClient();
 
     @Test
     @DisplayName("Изменение email для авторизованного юзера")
@@ -29,6 +28,7 @@ public class UpdateUserDataTest {
                 .body("success", equalTo(true));
 
     }
+
     @Test
     @DisplayName("Изменение password для авторизованного юзера")
     @Description("Проверяем код ответа и body")

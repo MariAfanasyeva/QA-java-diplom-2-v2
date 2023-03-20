@@ -1,12 +1,11 @@
 package deserializator.order.get;
-
 import java.util.List;
 
 public class UserOrders {
-   private boolean success;
-   private List<Orders>orders;
-   private int total;
-   private int totalToday;
+    private boolean success;
+    private List<Orders> orders;
+    private int total;
+    private int totalToday;
 
     public boolean isSuccess() {
         return success;

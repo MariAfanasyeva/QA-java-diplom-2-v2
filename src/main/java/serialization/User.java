@@ -26,8 +26,6 @@ public class User {
     }
 
     //геттеры и сеттеры
-
-
     public String getEmail() {
         return email;
     }

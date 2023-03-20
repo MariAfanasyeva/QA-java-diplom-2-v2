@@ -5,7 +5,7 @@ public class OrderResponse {
     private String name;
     private OrderNumber order;
 
-    public OrderResponse(){
+    public OrderResponse() {
 
     }
 }
